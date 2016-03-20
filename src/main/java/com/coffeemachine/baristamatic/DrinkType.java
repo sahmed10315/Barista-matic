@@ -43,6 +43,12 @@ public enum DrinkType {
 		public String toString() {
 			return "Decaf Coffee";
 		}
+	},
+	CUSTOM(7) {
+		@Override
+		public String toString() {
+			return "Custom Coffee";
+		}
 	};
 
 	// Assigns an integer with the drink

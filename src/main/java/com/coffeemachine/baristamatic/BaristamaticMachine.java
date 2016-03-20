@@ -1,5 +1,6 @@
 package com.coffeemachine.baristamatic;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 /**
@@ -41,35 +42,37 @@ public class BaristamaticMachine {
 	 * @return void.
 	 */
 	void displayMenu() {
-		
+
 		System.out.println("Menu: ");
-		
+
 		for (Entry<Integer, Drink> menuItem : menu) {
 			Drink drink = menuItem.getValue();
 			boolean buildable = drink.isBuildable(inventory);
-			
+
 			System.out.println(menuItem.getKey() + "," + drink.getDrinkType() + ","
 					+ String.format("$%.2f", drink.getCost()) + "," + buildable);
 		}
+		System.out.println("7," + DrinkType.CUSTOM + ", Cost varies on ingredients." );
 		System.out.println();
 	}
-	
+
 	/**
-	 * This method is used to dispense the specified drink, and updates the inventory.
-	 * If drink is not buildable from inventory items, then throw an exception.
+	 * This method is used to dispense the specified drink, and updates the
+	 * inventory. If drink is not buildable from inventory items, then throw an
+	 * exception.
 	 * 
 	 * @param drinkType
 	 * @return void.
 	 */
-	public void dispense(DrinkType drinkType) throws OutOfStockException { 
-		
-		Drink drink = menu.getDrink(drinkType); 
-		
+	public void dispense(DrinkType drinkType) throws OutOfStockException {
+
+		Drink drink = menu.getDrink(drinkType);
+
 		if (!drink.isBuildable(inventory))
 			throw new OutOfStockException("Out of Stock: " + drink);
-		
+
 		System.out.println("Dispensing: " + drink.getDrinkType());
-		drink.build(inventory); 
+		drink.build(inventory);
 	}
 
 	/**
@@ -80,5 +83,17 @@ public class BaristamaticMachine {
 	 */
 	public void restock() {
 		inventory.stockItems();
+	}
+
+	public void dispense(DrinkType custom, ArrayList<CustomDrinkIngredient> customIngredients)
+			throws OutOfStockException {
+
+		Drink drink = menu.makeCustomDrink(customIngredients);
+
+		if (!drink.isBuildable(inventory))
+			throw new OutOfStockException("Out of Stock: " + drink);
+
+		System.out.println("Dispensing: " + drink.getDrinkType());
+		drink.build(inventory);
 	}
 }

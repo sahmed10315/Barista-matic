@@ -1,6 +1,7 @@
 package com.coffeemachine.baristamatic;
+
 /**
- *  Ingredients that can be used
+ * Ingredients that can be used
  */
 public enum Ingredient {
 
@@ -97,4 +98,12 @@ public enum Ingredient {
 
 	public abstract double getCost();
 
+	public static boolean contains(String input) {
+		for (Ingredient ingredient : Ingredient.values()) {
+			if (ingredient.name().equals(input)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
